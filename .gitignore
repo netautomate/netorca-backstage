@@ -1,0 +1,42 @@
+# Node modules
+node_modules/
+**/node_modules/
+
+# Build output
+dist/
+build/
+lib/
+coverage/
+*.log
+
+# Environment files
+.env
+.env.*
+
+# IDE files
+.vscode/
+.idea/
+.DS_Store
+
+# Yarn & npm
+yarn-error.log
+yarn.lock
+npm-debug.log
+package-lock.json
+
+# Backstage generated files
+*.tsbuildinfo
+.cache/
+temp/
+tmp/
+
+# OS files
+Thumbs.db
+
+# Docker
+*.local
+docker-compose.override.yml
+
+# Misc
+*.swp
+*.swo

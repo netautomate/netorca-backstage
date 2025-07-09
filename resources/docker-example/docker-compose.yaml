@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  vault:
+    image: hashicorp/vault:latest
+    container_name: vault
+    ports:
+      - "8200:8200"       # Vault listens on port 8200 by default.
+    command: "server -dev -dev-root-token-id=${VAULT_TOKEN}"  # Runs Vault in dev mode with a pre-defined root token.
+    environment:
+      VAULT_ADDR: "http://0.0.0.0:8200"
+    cap_add:
+      - IPC_LOCK         # Needed by Vault to lock memory for security.
+    restart: unless-stopped
+  
+  backstage:
+    image: registry.gitlab.com/netautomate/netorca-backstage:v0.1.0a
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backstage
+    ports:
+      - "7007:7007"      
+    env_file:
+      - .env
+    environment:
+      - BACKEND_SECRET=${BACKEND_SECRET}
+      - VAULT_ADDR=http://vault:8200
+      - VAULT_TOKEN=${VAULT_TOKEN}
+      - VAULT_BACKEND_URL=http://vault:8200
